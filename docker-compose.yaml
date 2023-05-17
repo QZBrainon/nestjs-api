@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  # Serviço que irá rodar o banco de dados
+  db:
+    image: postgres:13
+    # Indica de forma fixa a plataforma na qual o banco irá rodar
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: learning_nest_db
