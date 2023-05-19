@@ -19,6 +19,8 @@ export class AuthService {
                     role: dto.role || 'customer'
                 }
             })
+            delete user.id
+            delete user.password
             return user
         } catch (error) {
             throw new ForbiddenException('Username or email already taken')
@@ -26,14 +28,16 @@ export class AuthService {
     }
 
     async signIn(dto: SignIn): Promise<User>{
-            const hashedPassword = await argon.hash(dto.password)
             const user = await this.db.user.findFirst({
                 where: {
-                    email: dto.email,
-                    password: hashedPassword
+                    email: dto.email
                 }
             })
-            if (!user) throw new NotFoundException('Incorrect email or password') 
+            if (!user) throw new NotFoundException('Incorrect email or password')
+            const pwMatches = await argon.verify(user.password, dto.password)
+            if (!pwMatches) throw new ForbiddenException('Incorrect email or password')
+            delete user.id
+            delete user.password
             return user
     }
 
