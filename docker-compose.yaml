@@ -3,6 +3,7 @@ version: "3"
 services:
   # Serviço que irá rodar o banco de dados
   db:
+    container_name: nest-api-db
     image: postgres:13
     # Indica de forma fixa a plataforma na qual o banco irá rodar
     platform: linux/x86_64
