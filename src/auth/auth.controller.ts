@@ -8,13 +8,13 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('signup')
-    signUp(@Body(new ValidationPipe({whitelist: true})) createUserDto: SignUp): Promise<User> {
+    signUp(@Body() createUserDto: SignUp): Promise<User> {
         const created = this.authService.signUp(createUserDto)
         return created
     }
 
     @Post('signin')
-    signIn(@Body(new ValidationPipe({whitelist: true})) loginDto: SignIn): Promise<User> {
+    signIn(@Body() loginDto: SignIn): Promise<User> {
         const created = this.authService.signIn(loginDto)
         return created
     }

@@ -1,12 +1,13 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SignIn, SignUp } from './dto';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
     constructor(private readonly db: PrismaService) {}
 
-    async signIn(dto: SignIn){
+    async signIn(dto: SignIn): Promise<User>{
             const user = await this.db.user.findFirst({
                 where: {
                     email: dto.email,
@@ -17,7 +18,7 @@ export class AuthService {
             return user
     }
 
-    async signUp(dto: SignUp){
+    async signUp(dto: SignUp): Promise<User>{
         try {
             const user = await this.db.user.create({
                 data: {
