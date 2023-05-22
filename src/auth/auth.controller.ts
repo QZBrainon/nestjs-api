@@ -8,14 +8,14 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('signup')
-    signUp(@Body() createUserDto: SignUp): Promise<User> {
-        const created = this.authService.signUp(createUserDto)
-        return created
+    signUp(@Body() createUserDto: SignUp): Promise<{token: string}> {
+        const jwtToken = this.authService.signUp(createUserDto)
+        return jwtToken
     }
 
     @Post('signin')
-    signIn(@Body() loginDto: SignIn): Promise<User> {
-        const created = this.authService.signIn(loginDto)
-        return created
+    signIn(@Body() loginDto: SignIn): Promise<{token: string}> {
+        const jwtToken = this.authService.signIn(loginDto)
+        return jwtToken
     }
 }
