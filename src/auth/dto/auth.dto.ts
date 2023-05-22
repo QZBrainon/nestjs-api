@@ -1,16 +1,17 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength, minLength } from "class-validator"
 
 export class SignUp {
-    @IsString()
     @IsNotEmpty()
+    @IsString()
     name: string
 
-    @IsEmail()
     @IsNotEmpty()
+    @IsEmail()
     email: string
 
-    @IsString()
     @IsNotEmpty()
+    @IsString()
+    @MinLength(6)
     password: string
 
     @IsOptional()
@@ -19,11 +20,12 @@ export class SignUp {
 }
 
 export class SignIn {
+    @IsNotEmpty()
     @IsEmail()
-    @IsNotEmpty()
     email: string
-
-    @IsString()
+    
     @IsNotEmpty()
+    @IsString()
+    @MinLength(6)
     password: string
 }
