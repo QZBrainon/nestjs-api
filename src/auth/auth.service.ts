@@ -47,7 +47,7 @@ export class AuthService {
             name: user.name,
             email: user.email,
             role: user.role
-        }, {secret: this.config.get('JWT_SECRET')})
+        }, {secret: this.config.get('JWT_SECRET'), expiresIn:'7d'})
     }
 
 }
