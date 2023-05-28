@@ -25,6 +25,17 @@ export class ProductService {
     }
   }
 
+  async createManyProducts(products: CreateProductDto[]) {
+    try {
+      const result = await this.db.product.createMany({
+        data: products,
+      });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('Could not bulk create products');
+    }
+  }
+
   async updateProduct(id: string, newProduct: UpdateProductDto) {
     try {
       const product = await this.db.product.update({

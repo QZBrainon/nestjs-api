@@ -17,6 +17,11 @@ export class ProductController {
     return this.productService.createProduct(createProductDto);
   }
 
+  @Post('bulk')
+  createManyProducts(@Body() createProductsDto: CreateProductDto[]) {
+    return this.productService.createManyProducts(createProductsDto);
+  }
+
   @Patch(':id')
   updateProduct(
     @Param('id') id: string,
