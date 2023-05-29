@@ -1,11 +1,5 @@
-import { Product, SaleProduct } from '@prisma/client';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  IsDate,
-  IsArray,
-} from 'class-validator';
+import { SaleProduct } from '@prisma/client';
+import { IsNotEmpty, IsNumber, IsString, IsArray } from 'class-validator';
 
 export class CreateSaleDto {
   @IsNotEmpty()
