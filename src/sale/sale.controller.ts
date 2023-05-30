@@ -10,6 +10,8 @@ import {
 import { SaleService } from './sale.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
+import { GetUser } from 'src/auth/decorators';
+import { User } from '@prisma/client';
 
 @Controller('sale')
 export class SaleController {
@@ -21,8 +23,8 @@ export class SaleController {
   }
 
   @Get()
-  findAll() {
-    return this.saleService.findAll();
+  findAll(@GetUser() user: User) {
+    return this.saleService.findUserSales(user);
   }
 
   @Get(':id')

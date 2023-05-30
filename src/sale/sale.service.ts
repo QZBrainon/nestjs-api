@@ -7,22 +7,11 @@ import {
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SaleProduct } from '@prisma/client';
+import { SaleProduct, User } from '@prisma/client';
 
 @Injectable()
 export class SaleService {
   constructor(private db: PrismaService) {}
-
-  // async createSaleProduct(saleId: string, products: SaleProduct[]) {
-  //   const result = products.map((product) => ({
-  //     saleId,
-  //     productId: product.productId,
-  //     quantity: product.quantity,
-  //   }));
-  //   await this.db.saleProduct.createMany({
-  //     data: result,
-  //   });
-  // }
 
   async create(createSaleDto: CreateSaleDto) {
     try {
@@ -56,8 +45,16 @@ export class SaleService {
     }
   }
 
-  findAll() {
-    return this.db.sale.findMany();
+  findUserSales(user: User) {
+    try {
+      if (user.role === 'customer') {
+        return this.db.sale.findMany({ where: { userId: user.id } });
+      } else {
+        return this.db.sale.findMany({ where: { sellerId: user.id } });
+      }
+    } catch (error) {
+      throw new NotFoundException('Not Found');
+    }
   }
 
   findOne(id: string) {
@@ -84,7 +81,7 @@ export class SaleService {
 // sale creating dto
 // {
 //   "userId":"f6e6d6ff-8db1-49bf-a43b-e2e679b3c0f5",
-//   "sellerId":"dde68652-c6fe-4692-9414-f0fad7fcfc19",
+//   "sellerId":"76eaa533-1b9f-433d-b6b4-8c1856d27863",
 //   "totalPrice": 100,
 //   "deliveryAddress":"Uma rua qualquer",
 //   "deliveryNumber": "1000",
