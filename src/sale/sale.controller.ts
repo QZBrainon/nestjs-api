@@ -28,8 +28,8 @@ export class SaleController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.saleService.findOne(id);
+  findOne(@Param('id') id: string, @GetUser() user: User) {
+    return this.saleService.findOne(id, user);
   }
 
   @Patch(':id')

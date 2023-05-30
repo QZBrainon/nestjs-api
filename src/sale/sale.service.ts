@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
@@ -57,8 +58,55 @@ export class SaleService {
     }
   }
 
-  findOne(id: string) {
-    return this.db.sale.findUnique({ where: { id } });
+  async findCustomerSale(saleId: string, user: User) {
+    const sale = await this.db.sale.findFirst({
+      where: { id: saleId, userId: user.id },
+      select: {
+        seller: { select: { name: true } },
+        totalPrice: true,
+        deliveryAddress: true,
+        deliveryNumber: true,
+        saleDate: true,
+        status: true,
+        SaleProducts: {
+          select: {
+            product: { select: { name: true, price: true } },
+            quantity: true,
+          },
+        },
+      },
+    });
+    if (!sale) throw new ForbiddenException('No access');
+    return sale;
+  }
+
+  async findSellerSale(saleId: string, user: User) {
+    const sale = await this.db.sale.findFirst({
+      where: { id: saleId, sellerId: user.id },
+      select: {
+        buyer: { select: { name: true } },
+        totalPrice: true,
+        deliveryAddress: true,
+        deliveryNumber: true,
+        saleDate: true,
+        status: true,
+        SaleProducts: {
+          select: {
+            product: { select: { name: true, price: true } },
+            quantity: true,
+          },
+        },
+      },
+    });
+    if (!sale) throw new ForbiddenException('No access');
+    return sale;
+  }
+
+  async findOne(saleId: string, user: User) {
+    if (user.role === 'customer') {
+      return await this.findCustomerSale(saleId, user);
+    }
+    return await this.findSellerSale(saleId, user);
   }
 
   update(id: string, updateSaleDto: UpdateSaleDto) {
