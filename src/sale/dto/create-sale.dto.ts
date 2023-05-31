@@ -1,5 +1,11 @@
 import { SaleProduct } from '@prisma/client';
-import { IsNotEmpty, IsNumber, IsString, IsArray } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsArray,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateSaleDto {
   @IsNotEmpty()
@@ -25,4 +31,7 @@ export class CreateSaleDto {
   @IsNotEmpty()
   @IsArray()
   products: SaleProduct[];
+
+  @IsOptional()
+  status?: 'Pendente' | 'Em Trânsito' | 'Preparando' | 'Entregue';
 }

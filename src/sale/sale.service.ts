@@ -109,17 +109,21 @@ export class SaleService {
     return await this.findSellerSale(saleId, user);
   }
 
-  update(id: string, updateSaleDto: UpdateSaleDto) {
+  async update(id: string, updateSaleDto: UpdateSaleDto) {
     try {
-      return this.db.sale.update({ where: { id }, data: updateSaleDto });
+      const result = await this.db.sale.update({
+        where: { id },
+        data: { status: updateSaleDto.status },
+      });
+      return result;
     } catch (error) {
       throw new NotFoundException('Sale not found');
     }
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     try {
-      return this.db.sale.delete({ where: { id } });
+      return await this.db.sale.delete({ where: { id } });
     } catch (error) {
       throw new NotFoundException('Sale not found');
     }
