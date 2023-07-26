@@ -2,10 +2,23 @@
 
 This project is developed as part of a personal series to learn the Node backend framework NestJS
 
+It's a fully functioning API that implements the following concepts:
+
+- User Authentication with Json Web Tokens
+- User role authorization
+- Data Transfer Object validation
+- All CRUD operations
+- Dynamic routes
+- Database integration with PostgreSQL
+- Table relationships
+- Prisma ORM
+- Docker
+
 ## Goal
 To rewrite previous fully implemented, production ready Express API's into NestJS
 
 The ORM will also be replaced from Sequelize to Prisma as a challenge and learning experience
+
 
 ## Contact
 If you are interested in NestJS/Prisma or have experience in the topic, please feel free to reach out to me at [LinkedIn](https://www.linkedin.com/in/brainon-queiroz/)
